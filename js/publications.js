@@ -156,6 +156,7 @@ function typeLabel(t) {
     "article": "Article",
     "review": "Review",
     "proceedings-article": "Conference paper",
+    "posted-content": "Preprint",
     "book-chapter": "Book chapter",
     "dissertation": "Thesis",
     "book": "Book",
@@ -251,15 +252,20 @@ function setSort(mode){
 
 function applyFilters() {
   const q = (searchInput.value || "").toLowerCase().trim();
-  const t = typeSelect.value;
+  const t = String(typeSelect.value || "all").toLowerCase();
+
+  const known = ["article","review","proceedings-article","book-chapter","dissertation","book","preprint"];
 
   const filtered = allRows.filter(r => {
-    const known = ["article","review","proceedings-article","book-chapter","dissertation","book","preprint"];
+    // Defensive normalization: some sources (or overrides) may carry non-normalized types
+    const rowType = normalizeOAType(r?.type || r?.typeLabel || "");
+
     const matchesType = (t === "all")
       ? true
       : (t === "other")
-        ? !known.includes(String(r.type || "").toLowerCase())
-        : String(r.type || "").toLowerCase() === String(t).toLowerCase();
+        ? !known.includes(rowType)
+        : rowType === t;
+
     const hay = `${r.title} ${r.source} ${r.doi} ${r.year} ${r.typeLabel}`.toLowerCase();
     const matchesQuery = q ? hay.includes(q) : true;
     return matchesType && matchesQuery;
@@ -295,6 +301,23 @@ async function fetchAllOpenAlexWorks() {
   return items;
 }
 
+function normalizeOAType(t){
+  if (!t) return "other";
+  const s = String(t).toLowerCase();
+  // OpenAlex sometimes returns "posted-content" for preprints.
+  if (s.includes("posted") || s === "posted-content") return "preprint";
+  // Some sources may still provide ORCID-like labels.
+  if (s.includes("journal-article") || (s.includes("journal") && s.includes("article"))) return "article";
+  if (s.includes("conference") || s.includes("proceedings")) return "proceedings-article";
+  if (s.includes("book-chapter")) return "book-chapter";
+  if (s.includes("dissertation") || s.includes("thesis")) return "dissertation";
+  if (s.includes("review")) return "review";
+  if (s.includes("book")) return "book";
+  if (s.includes("preprint")) return "preprint";
+  // keep known OpenAlex types (article, review, preprint, etc.)
+  return s;
+}
+
 function openalexTypeLabel(t) {
   // OpenAlex work types: "article", "book-chapter", "preprint", etc.
   if (!t) return "Other";
@@ -305,6 +328,7 @@ function openalexTypeLabel(t) {
     book: "Book",
     "book-chapter": "Book chapter",
     "proceedings-article": "Conference paper",
+    "posted-content": "Preprint",
     dissertation: "Thesis",
     dataset: "Dataset"
   };
@@ -318,13 +342,13 @@ function normalizeFromOpenAlex(w) {
   const title = w?.title || "";
   const source = w?.host_venue?.display_name || "";
   const url = w?.primary_location?.landing_page_url || (doi ? `https://doi.org/${doi}` : "");
-  const typeLabel = openalexTypeLabel(w?.type);
-
+    const type = normalizeOAType(w?.type);
+  const typeLabel = openalexTypeLabel(type);
   // OpenAlex per-work citations
   // Ensure it's always a number so sorting works reliably.
   const citations = Number.isFinite(Number(w?.cited_by_count)) ? Number(w.cited_by_count) : 0;
 
-  return { title, source, year, doi, url, citations, type: w?.type || "other", typeLabel };
+    return { title, source, year, doi, url, citations, type: type || "other", typeLabel };
 }
 
 async function loadPublications() {
@@ -347,7 +371,7 @@ if (!PUB_ORCID) {
   return;
 }
 
-    pubBody.innerHTML = `<tr><td colspan="6" class="muted">Loading publications…</td></tr>`;
+    pubBody.innerHTML = `<tr><td colspan="6" class="muted">Fetching publications…</td></tr>`;
 
     // Local additions/overrides (small file you can maintain)
     const pubFixes = await loadPublicationOverrides();

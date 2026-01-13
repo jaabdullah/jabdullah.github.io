@@ -144,12 +144,11 @@
           <div class="chartHead__left">
             <h3 id="citationsChartTitle">Citations per year</h3>
             <p class="chartMeta" id="citationsChartMeta">
-              Sources: OpenAlex (auto) · Google Scholar & Scopus (manual).
+              Sources: OpenAlex · Google Scholar · Scopus.
               <details class="chartDetails">
                 <summary>Data details</summary>
                 <div class="muted">
-                  OpenAlex is updated automatically. Google Scholar and Scopus are updated manually about every 2 weeks.
-                  <br/>GS last update: <span id="gsLastUpdated">—</span> · Scopus last update: <span id="scopusLastUpdated">—</span>
+                  Data sources: OpenAlex (ORCID-linked), Google Scholar, and Scopus.<span id="gsLastUpdated">—</span> · Scopus last update: <span id="scopusLastUpdated">—</span>
                 </div>
               </details>
     
@@ -190,11 +189,13 @@
       <div class="profileGrid">
         <div>
           <p class="lead">
-            I am a Postdoctoral Researcher and Technical Support Staff (PTA) at the X-Ray Diffraction Laboratory (CITIUS), University of Seville. My research focuses on sustainable nanotechnology, including green synthesis of metal oxide and magnetic nanoparticles, hybrid nanocomposites, and biopolymer-based functional materials.
+            My research develops sustainable nanomaterials and functional biopolymeric systems, with emphasis on green synthesis, scalable processing, and rigorous physicochemical characterization.
           </p>
-          <p class="muted" style="margin-top:.4rem">
-            Key application areas include water treatment and emerging contaminant removal, photocatalysis, atmospheric water generation, hydrogen production, CO₂ capture, and active antioxidant/antibacterial materials for food, agriculture, and pharmaceutical technologies.
-          </p>
+          <ul class="bullets" style="margin:.6rem 0 0 1.1rem">
+            <li>Green synthesis of metal oxide nanoparticles and magnetic nanocomposites</li>
+            <li>Biopolymer films/fibers (casting, electrospinning) for active and smart materials</li>
+            <li>Applications: water treatment, antimicrobial/antioxidant systems, food & packaging, and sustainable additives</li>
+          </ul>
         </div>
 
         
@@ -215,10 +216,10 @@
   </div>
 
   <div class="sourceCards" id="metricsCards" aria-label="Metrics by source">
-    <button class="sourceCard isActive" id="cardOA" type="button" data-src="openalex" aria-label="OpenAlex metrics (auto)">
+    <button class="sourceCard isActive" id="cardOA" type="button" data-src="openalex" aria-label="OpenAlex metrics">
       <div class="sourceCard__head">
         <div class="sourceCard__title"><span class="swatch swatch--oa" aria-hidden="true"></span>OpenAlex</div>
-        <span class="badge badge--auto">Auto</span>
+        <span class="badge badge--auto">Live</span>
       </div>
       <div class="sourceCard__grid">
         <div class="kv"><div class="k">Citations</div><div class="v" id="oaCitations">—</div></div>
@@ -229,10 +230,10 @@
       <div class="sourceCard__foot">View citations chart</div>
     </button>
 
-    <button class="sourceCard" id="cardGS" type="button" data-src="scholar" aria-label="Google Scholar metrics (manual)">
+    <button class="sourceCard" id="cardGS" type="button" data-src="scholar" aria-label="Google Scholar metrics">
       <div class="sourceCard__head">
         <div class="sourceCard__title"><span class="swatch swatch--gs" aria-hidden="true"></span>Google Scholar</div>
-        <span class="badge badge--manual">Manual</span>
+        <span class="badge badge--manual">External</span>
       </div>
       <div class="sourceCard__grid">
         <div class="kv"><div class="k">Citations</div><div class="v" id="gsCitationsTotal">—</div></div>
@@ -242,10 +243,10 @@
       <div class="sourceCard__foot">View citations chart</div>
     </button>
 
-    <button class="sourceCard" id="cardSC" type="button" data-src="scopus" aria-label="Scopus metrics (manual)">
+    <button class="sourceCard" id="cardSC" type="button" data-src="scopus" aria-label="Scopus metrics">
       <div class="sourceCard__head">
         <div class="sourceCard__title"><span class="swatch swatch--sc" aria-hidden="true"></span>Scopus</div>
-        <span class="badge badge--manual">Manual</span>
+        <span class="badge badge--manual">External</span>
       </div>
       <div class="sourceCard__grid">
         <div class="kv"><div class="k">Citations</div><div class="v" id="scCitationsTotal">—</div></div>
@@ -297,8 +298,9 @@
     <section id="about" class="card section">
       <h2>About</h2>
       <p>
-  I am a Postdoctoral Researcher and Technical Support Staff (PTA) at the University of Seville (CITIUS – X-Ray Diffraction Laboratory). My role combines advanced crystallographic characterization, user support, and collaborative research activities within multidisciplinary projects focused on sustainable materials and environmental technologies.
-</p>
+        I am a Postdoctoral Researcher & Technical Support Staff (PTA) at the X-ray Diffraction Laboratory (CITIUS), University of Seville.
+        I earned my PhD (2024) in Industrial & Environmental Chemistry and work on sustainable (green) nanotechnology—metal oxides, biopolymers, and hybrid nanocomposites—targeting environmental and bio-based applications.
+      </p>
     </section>
 
     <section id="academic-journey" class="card section">
