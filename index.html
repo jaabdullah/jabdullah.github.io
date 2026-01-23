@@ -7,6 +7,15 @@
   <meta name="description" content="Academic profile of Johar Amin Ahmed Abdullah: sustainable nanotechnology, green chemistry, nanomaterials, water treatment." />
 
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+</style>
+    <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+
+  <!-- Social preview (Open Graph / Twitter) -->
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
 
   <!-- Basic SEO / Social -->
   <meta property="og:title" content="Johar Amin Ahmed Abdullah | Academic Profile" />
@@ -29,34 +38,64 @@
     ]
   }
   </script>
+
+<!-- Analytics (optional) -->
+<!-- GoatCounter (privacy-friendly): replace YOURNAME and uncomment
+<script data-goatcounter="https://YOURNAME.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+-->
+<!-- Plausible (privacy-friendly): replace DOMAIN and uncomment
+<script defer data-domain="YOURDOMAIN" src="https://plausible.io/js/script.js"></script>
+-->
+<!-- Google Analytics 4: paste your GA4 snippet here if you prefer -->
+<script data-goatcounter="https://jabdullah.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 
 <body>
   <header class="topbar">
-    <div class="container topbar__inner">
-      <a class="brand" href="#home" aria-label="Home">
-        <span class="brand__mark"></span>
-        <span class="brand__text">Johar Amin Ahmed Abdullah (J. A. A. Abdullah)</span>
-      </a>
+  <a class="skip" href="#home">Skip to content</a>
+  <div class="container topbar__inner">
+    <a class="brand" href="#home" aria-label="Home">
+      <span class="brand__mark" aria-hidden="true">
+  <svg viewBox="0 0 24 24" width="12" height="12" fill="none">
+    <path d="M4 5.5C4 4.67 4.67 4 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5V5.5Z"
+          stroke="currentColor" stroke-width="1.6"/>
+    <path d="M12 4h6.5C19.33 4 20 4.67 20 5.5v13c0 .83-.67 1.5-1.5 1.5H12V4Z"
+          stroke="currentColor" stroke-width="1.6"/>
+  </svg>
+</span>
+      <span class="brand__stack">
+        <span class="brand__text">Johar A. A. Abdullah</span>
+        <span class="brand__sub">University of Seville (CITIUS)</span>
+      </span>
+    </a>
 
-      <nav class="nav">
+    <div class="topbar__right">
+      <nav class="nav" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#profile">Profile</a>
-        
         <a href="#academic-journey">Academic Journey</a>
-<a href="#research">Research</a>
+        <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#teaching">Teaching</a>
         <a href="#contact">Contact</a>
       </nav>
+
+      <button class="btn btn--ghost" type="button" onclick="window.print()">
+  Download CV 
+</button>
+
     </div>
-  </header>
+  </div>
+</header>
+
 
   <main id="home" class="container">
     <!-- Profile card -->
     <section class="card hero">
       <div class="hero__left">
-        <div class="avatar" aria-hidden="true"></div>
+        <img class="avatar" src="assets/avatar.jpg" alt="Portrait of Johar Amin Ahmed Abdullah" />
+
       </div>
 
       <div class="hero__right">
@@ -68,7 +107,7 @@
         <div class="meta">
           <a href="mailto:jabdullah@us.es">jabdullah@us.es</a>
           <span class="dot">•</span>
-          <a href="mailto:johar92@outlook.fr">johar92@outlook.fr</a>
+          <a href="mailto:j.abdullah@outlook.es">j.abdullah@outlook.es</a>
           <span class="dot">•</span>
           <span>Seville, Spain</span>
         </div>
@@ -148,8 +187,10 @@
               <details class="chartDetails">
                 <summary>Data details</summary>
                 <div class="muted">
-                  Data sources: OpenAlex (ORCID-linked), Google Scholar, and Scopus.<span id="gsLastUpdated">—</span> · Scopus last update: <span id="scopusLastUpdated">—</span>
-                </div>
+  Data sources: OpenAlex (ORCID-linked), Google Scholar, and Scopus ·
+  Last update: <span id="metricsLastUpdated">—</span>
+</div>
+
               </details>
     
             </p>
@@ -168,6 +209,27 @@
           <button class="toggleBtn" id="srcScopus" type="button">Scopus</button>
         </div>
                 <div class="chartWrap" role="group" aria-label="Citations by year chart">
+                  <!-- Total citations badge (one shown at a time) -->
+<div class="impact-badges-row">
+
+  <div class="impact-badge openalex" id="badge-openalex">
+    <span class="impact-value" id="openalex-total-citations">—</span>
+    <span class="impact-label">citations</span>
+    <div class="impact-sub">OpenAlex total</div>
+  </div>
+
+  <div class="impact-badge scholar" id="badge-scholar">
+    <span class="impact-value" id="scholar-total-citations">—</span>
+    <span class="impact-label">citations</span>
+    <div class="impact-sub">Google Scholar total</div>
+  </div>
+
+  <div class="impact-badge scopus" id="badge-scopus">
+    <span class="impact-value" id="scopus-total-citations">—</span>
+    <span class="impact-label">citations</span>
+    <div class="impact-sub">Scopus total</div>
+  </div>
+</div>
           <div class="yAxisLabel" aria-hidden="true">Citations</div>
           <div class="chart" id="citationsChart" aria-label="Citations by year"></div>
         </div>
@@ -176,7 +238,7 @@
         <div class="chartLegend" aria-label="Legend" id="chartLegend">
           <div class="legendItem"><span class="legendSwatch legendSwatch--oa" aria-hidden="true"></span><span id="legendLabel">OpenAlex</span></div>
         </div>
-        <p class="chartNote">Note: OpenAlex, Google Scholar, and Scopus use different indexing and counting methodologies; values may differ.</p>
+        <p class="chartNote">Note: Citation counts differ across OpenAlex, Google Scholar, and Scopus due to differences in indexing coverage and citation methodologies.</p>
       </div>
     </section>
 
@@ -471,6 +533,7 @@
   <script src="js/metrics.js" defer></script>
   <script src="js/awards.js" defer></script>
   <script src="js/publications.js" defer></script>
+  <script src="js/scrollspy.js" defer></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
