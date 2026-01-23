@@ -1,12 +1,52 @@
 {
-  "lastUpdated": "2026-01-11",
+  "lastUpdated": "2026-01-23",
+  "method": "serpapi_google_scholar_author",
+  "authorId": "t5EiMZoAAAAJ",
+  "totals": {
+    "citationsAll": 2057,
+    "citationsSince": 2050,
+    "hIndexAll": 27,
+    "hIndexSince": 27,
+    "i10IndexAll": 47,
+    "i10IndexSince": 47
+  },
   "citationsByYear": {
     "2020": 0,
-    "2021": 33,
-    "2022": 65,
+    "2021": 31,
+    "2022": 66,
     "2023": 110,
-    "2024": 463,
-    "2025": 1272,
-    "2026": 74
-  }
+    "2024": 462,
+    "2025": 1275,
+    "2026": 106
+  },
+  "data": [
+    {
+      "year": 2020,
+      "citations": 0
+    },
+    {
+      "year": 2021,
+      "citations": 31
+    },
+    {
+      "year": 2022,
+      "citations": 66
+    },
+    {
+      "year": 2023,
+      "citations": 110
+    },
+    {
+      "year": 2024,
+      "citations": 462
+    },
+    {
+      "year": 2025,
+      "citations": 1275
+    },
+    {
+      "year": 2026,
+      "citations": 106
+    }
+  ]
 }

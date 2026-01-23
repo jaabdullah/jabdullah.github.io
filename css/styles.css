@@ -47,6 +47,7 @@ body{
   position:sticky;
   top:0;
   z-index:50;
+  position: relative;
   background:rgba(255,255,255,0.75);
   backdrop-filter: blur(12px);
   border-bottom:1px solid var(--line);
@@ -57,6 +58,26 @@ body{
   align-items:center;
   justify-content:space-between;
   padding:12px 0;
+}
+.skip{
+  position:absolute;
+  left:12px;
+  top:10px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow: var(--shadow2);
+  color:var(--ink);
+  font-weight:700;
+  text-decoration:none;
+
+  transform: translateY(-140%);
+  transition: transform .15s ease;
+  z-index:999;
+}
+.skip:focus{
+  transform: translateY(0);
 }
 .brand{
   display:flex;
@@ -89,6 +110,60 @@ body{
 .nav a:hover{
   color:var(--text);
   background:#f3f4f6;
+}
+.topbar{
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.04);
+}
+
+.topbar__right{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.brand__stack{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+}
+.brand__text{ font-weight:800; letter-spacing:0.2px; }
+.brand__sub{
+  font-size:12px;
+  font-weight:700;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.nav a{
+  position:relative;
+}
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:6px;
+  height:2px;
+  border-radius:2px;
+  background:transparent;
+  transition: background .15s ease;
+}
+.nav a:hover::after{
+  background: rgba(15,118,110,0.35);
+}
+.nav a[aria-current="page"]{
+  color:var(--ink);
+  background: rgba(15,118,110,0.08);
+}
+.nav a[aria-current="page"]::after{
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+/* Accessible focus */
+.nav a:focus-visible, .btn:focus-visible, .brand:focus-visible{
+  outline:3px solid rgba(15,118,110,0.35);
+  outline-offset:3px;
+  border-radius:12px;
 }
 
 .card{
@@ -131,10 +206,11 @@ body{
 .avatar{
   width:110px;
   height:110px;
+  object-fit:cover;
   border-radius:26px;
   border:1px solid var(--line);
-  background: url("../assets/avatar.jpg") center/cover no-repeat;
   box-shadow: var(--shadow2);
+  display:block;
 }
 
 
@@ -641,6 +717,15 @@ body{
 .btn--ghost{
   background: rgba(255,255,255,0.65);
 }
+.btn--primary{
+  background: linear-gradient(135deg, rgba(15,118,110,0.92), rgba(180,83,9,0.88));
+  color: #fff;
+  border-color: rgba(0,0,0,0.06);
+  box-shadow: 0 10px 24px rgba(2,6,23,0.10);
+}
+.btn--primary:hover{
+  filter: brightness(1.02);
+}
 
 .btn:hover{ filter: brightness(0.98); }
 
@@ -921,4 +1006,790 @@ body{
 .table td.num, .table th.num{
   text-align:right;
   font-variant-numeric: tabular-nums;
+}
+.impact-badges-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0 0.75rem;
+}
+/* === Impact badges === */
+.impact-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 14px;
+  background: #fff7f0;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  margin-bottom: 0.75rem;
+}
+
+.impact-badge.scopus {
+  background: #fff4ec;
+}
+
+.impact-badge.openalex {
+  background: #eef6ff;
+}
+
+.impact-badge.scholar {
+  background: #f3f7f3;
+}
+
+.impact-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.impact-badge.scopus .impact-value {
+  color: #f26a1b;
+}
+
+.impact-badge.openalex .impact-value {
+  color: #2563eb;
+}
+
+.impact-badge.scholar .impact-value {
+  color: #2e7d32;
+}
+
+.impact-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+.impact-sub {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 4px;
+}
+.impact-badges-row{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  align-items:stretch;
+  margin:12px 0 16px;
+}
+.impact-badge{
+  min-width: 160px;
+}
+/* --- Calm, trustworthy layout: chart + small total badge on the right --- */
+.chartArea{
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 16px;
+  align-items: start;
+}
+
+/* On small screens, stack */
+@media (max-width: 900px){
+  .chartArea{ grid-template-columns: 1fr; }
+  .impact-badges-side{ justify-self: start; }
+}
+
+/* Side container */
+.impact-badges-side{
+  display:flex;
+  justify-content:flex-end;
+}
+
+/* Badge: subtle, neutral, with a tiny color accent */
+.impact-badge{
+  display:none;               /* default hidden; JS adds .isActive */
+  width: 220px;
+  padding: 12px 12px 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+  backdrop-filter: blur(6px);
+}
+
+.impact-badge.isActive{ display:block; }
+
+.impact-value{
+  font-size: 28px;     /* reduced */
+  font-weight: 750;    /* calmer than 800+ */
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+  color: rgba(15,23,42,0.92); /* neutral slate */
+}
+
+.impact-label{
+  font-size: 13px;
+  color: rgba(15,23,42,0.60);
+}
+
+.impact-sub{
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(15,23,42,0.50);
+}
+
+/* Small accent bar instead of heavy background color */
+.impact-badge::before{
+  content:"";
+  display:block;
+  height: 4px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  background: rgba(15,23,42,0.12);
+}
+
+/* Source accents (very subtle) */
+.impact-badge.openalex::before{ background: rgba(37,99,235,0.35); }
+.impact-badge.scholar::before{  background: rgba(46,125,50,0.35); }
+.impact-badge.scopus::before{   background: rgba(242,106,27,0.35); }
+/* ===== Calm, small total badge (matches chart colors) ===== */
+
+/* make the badge row align nicely */
+.impact-badges-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:8px 0 12px;
+}
+
+/* smaller, calmer card */
+.impact-badge{
+  display:none;                 /* keep the "only one active" behavior */
+  padding:10px 14px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.75);
+  box-shadow:0 10px 24px rgba(0,0,0,0.06);
+  min-width: 170px;
+  max-width: 200px;
+}
+
+/* show only active one */
+.impact-badge.isActive{ display:inline-flex; }
+
+.impact-badge{
+  flex-direction:column;
+  align-items:flex-start;       /* more “professional dashboard” */
+  justify-content:center;
+}
+
+/* smaller number */
+.impact-value{
+  font-size:26px;               /* reduced from big */
+  font-weight:750;
+  line-height:1.05;
+  letter-spacing:-0.3px;
+  margin-bottom:4px;
+}
+
+/* calmer text */
+.impact-label{
+  font-size:12px;
+  color:rgba(0,0,0,0.55);
+  margin-top:0;
+}
+
+.impact-sub{
+  font-size:12px;
+  color:rgba(0,0,0,0.45);
+  margin-top:4px;
+}
+
+/* subtle accent bar that matches chart color */
+.impact-badge::before{
+  content:"";
+  display:block;
+  width:34px;
+  height:4px;
+  border-radius:999px;
+  margin-bottom:10px;
+  background: rgba(0,0,0,0.18);
+}
+
+/* ===== Match badge accents to chart colors =====
+   (these should match your legendSwatch colors / bar colors)
+*/
+.impact-badge.openalex::before{ background: rgba(46,125,50,0.35); } /* teal */
+.impact-badge.scholar::before { background: rgba(59, 130, 246, 0.75); } /* blue */
+.impact-badge.scopus::before  { background: rgba(242, 106, 27, 0.75); } /* orange */
+
+/* make the big number slightly tinted but not loud */
+.impact-badge.openalex .impact-value{ color: #2e7d32; }
+.impact-badge.scholar  .impact-value{ color: rgba(59, 130, 246, 0.95); }
+.impact-badge.scopus   .impact-value{ color: rgba(242, 106, 27, 0.95); }
+.chartWrap{ position: relative; }
+
+.impact-badges-row{
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 5;
+  display: flex;
+}
+
+.impact-badge{
+  display:none;
+  padding:10px 14px;
+  border-radius:14px;
+  min-width:160px;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+  backdrop-filter: blur(4px);
+}
+
+.impact-badge.isActive{ display:flex; flex-direction:column; }
+
+.impact-badge::before{
+  content:"";
+  width:32px;
+  height:4px;
+  border-radius:999px;
+  margin-bottom:8px;
+}
+
+.impact-value{ font-size:24px; font-weight:700; line-height:1.1; }
+.impact-label{ font-size:12px; opacity:.65; }
+.impact-sub{ font-size:12px; opacity:.5; margin-top:2px; }
+
+/* match chart colors */
+.impact-badge.openalex::before{ background:#16a085; }
+.impact-badge.openalex .impact-value{ color:#16a085; }
+
+.impact-badge.scholar::before{ background:#3b82f6; }
+.impact-badge.scholar .impact-value{ color:#3b82f6; }
+
+.impact-badge.scopus::before{ background:#f26a1b; }
+.impact-badge.scopus .impact-value{ color:#f26a1b; }
+/* ================================
+   CALM, TRUSTWORTHY HEADER POLISH
+   Paste at END of styles.css
+================================ */
+
+/* 1) Slightly more solid header (less “glassy”) */
+.topbar{
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px);
+}
+
+/* 2) Reduce header height + tighten rhythm */
+.topbar__inner{
+  padding: 10px 0;           /* was 12px */
+  gap: 18px;
+}
+
+/* 3) Make brand compact and aligned */
+.brand{
+  gap: 10px;
+}
+.brand__mark{
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+.brand__text{
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.1px;
+}
+.brand__sub{
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-top: 2px;
+  color: rgba(91,101,119,0.95);
+}
+
+/* 4) Nav: calmer spacing + less “pill” look */
+.nav{
+  gap: 10px;                 /* was 16px */
+}
+.nav a{
+  font-size: 13.5px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: rgba(91,101,119,0.95);
+}
+.nav a:hover{
+  background: rgba(17,24,39,0.04);   /* lighter */
+  color: var(--ink);
+}
+
+/* 5) Active state: remove “big pill”, keep subtle underline */
+.nav a[aria-current="page"]{
+  background: transparent;
+  color: var(--ink);
+}
+.nav a::after{
+  left: 10px;
+  right: 10px;
+  bottom: 5px;
+  height: 2px;
+  opacity: 0.9;
+}
+.nav a:hover::after{
+  background: rgba(15,118,110,0.25); /* calmer */
+}
+.nav a[aria-current="page"]::after{
+  background: linear-gradient(90deg, rgba(15,118,110,0.75), rgba(180,83,9,0.65));
+}
+
+/* 6) CTA button: calmer, more “official”, less flashy */
+.btn--primary{
+  padding: 9px 12px;               /* slightly smaller */
+  border-radius: 12px;
+  background: rgba(15,118,110,0.10); /* calm fill */
+  color: rgba(15,118,110,0.95);
+  border: 1px solid rgba(15,118,110,0.28);
+  box-shadow: none;
+}
+.btn--primary:hover{
+  background: rgba(15,118,110,0.14);
+}
+
+/* 7) Ensure header content doesn’t wrap awkwardly */
+.topbar__right{
+  flex-wrap: nowrap;
+}
+
+/* 8) Mobile: hide subtitle in header (keeps it clean) */
+@media (max-width: 920px){
+  .brand__sub{ display:none; }
+  .nav{ gap: 6px; }
+}
+/* ================================
+   NAV TYPOGRAPHY POLISH
+   ================================ */
+
+/* Make nav items stronger, but still secondary */
+.nav a{
+  font-size: 14.5px;      /* slightly larger */
+  font-weight: 700;       /* bold, but not heavy */
+  letter-spacing: 0.1px;
+  color: rgba(71,85,105,0.95); /* slate-like academic tone */
+}
+
+/* Active item: slightly stronger */
+.nav a[aria-current="page"]{
+  font-weight: 800;
+  color: var(--ink);
+}
+
+/* Hover stays subtle */
+.nav a:hover{
+  color: var(--ink);
+}
+
+/* Keep underline calm and academic */
+.nav a::after{
+  height: 2px;
+}
+/* ================================
+   BRAND CALMING (NAME + AFFILIATION)
+   ================================ */
+
+/* Name stays authoritative */
+.brand__text{
+  font-size: 15.5px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+/* Affiliation becomes a quiet credential */
+.brand__sub{
+  font-size: 11px;                 /* smaller */
+  font-weight: 600;               /* not bold */
+  letter-spacing: 0.25px;         /* airy */
+  color: rgba(71,85,105,0.75);    /* softer slate */
+  margin-top: 1px;
+}
+/* Logo mark should support, not lead */
+.brand__mark{
+  width: 11px;
+  height: 11px;
+  opacity: 0.85;
+  border-radius: 4px;
+}
+.topbar__inner{
+  gap: 22px;
+}
+@media (max-width: 1024px){
+  .brand__sub{
+    display: none;
+  }
+}
+.brand__sub{
+  opacity: 0.75;
+  transition: opacity .15s ease;
+}
+.brand:hover .brand__sub{
+  opacity: 1;
+}
+/* ===== FORCE BRAND CALMING (PUT THIS AT VERY END) ===== */
+
+/* brand block: reduce visual noise + calm affiliation */
+header.topbar .brand__text{
+  font-size: 15.5px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.0px !important;
+  line-height: 1.1 !important;
+}
+
+header.topbar .brand__sub{
+  font-size: 10.8px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.28px !important;
+  color: rgba(71,85,105,0.65) !important;
+  margin-top: 2px !important;
+}
+
+/* reduce the “mark” dominance */
+header.topbar .brand__mark{
+  width: 11px !important;
+  height: 11px !important;
+  opacity: 0.78 !important;
+}
+
+/* add breathing room between brand and nav */
+header.topbar .topbar__inner{
+  gap: 24px !important;
+}
+/* ===== BRAND CALMING (FINAL) ===== */
+header.topbar .brand__text{
+  font-size: 15px !important;
+  font-weight: 850 !important;
+  line-height: 1.1 !important;
+}
+
+header.topbar .brand__sub{
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  color: rgba(71,85,105,0.60) !important;
+  letter-spacing: 0.25px !important;
+}
+
+header.topbar .brand__mark{
+  width: 11px !important;
+  height: 11px !important;
+  opacity: 0.75 !important;
+}
+header.topbar .brand__stack{
+  gap: 2px !important;
+}
+header.topbar .brand{
+  gap: 12px !important;
+}
+/* Calm header: underline-only active nav (no pill background) */
+header.topbar .nav a[aria-current="page"]{
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+header.topbar .nav a[aria-current="page"]::after{
+  background: linear-gradient(90deg, rgba(15,118,110,0.75), rgba(180,83,9,0.65)) !important;
+}
+/* ===== FINAL HEADER ALIGNMENT FIX ===== */
+
+/* 1) Align brand block to center line of header */
+header.topbar .brand{
+  align-items: center !important;
+}
+
+/* 2) Stack name + affiliation vertically, but only NAME is centered */
+header.topbar .brand__stack{
+  align-items: flex-start !important; /* <-- key fix */
+}
+
+/* 3) Make name larger and authoritative */
+header.topbar .brand__text{
+  font-size: 16.5px !important;   /* bigger than nav */
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+}
+
+/* 4) Affiliation becomes a caption under the name */
+header.topbar .brand__sub{
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: rgba(71,85,105,0.6) !important;
+  margin-top: 2px !important;
+}
+
+/* 5) Make nav items slightly bigger (but smaller than name) */
+header.topbar .nav a{
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+/* === Institutional brand mark (calm, academic) === */
+.brand__mark{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#2f6f6f; /* same family as accent, but flat */
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+  margin-top:2px;
+  flex-shrink:0;
+}
+/* ===== Header brand: final clean version ===== */
+.topbar .brand{
+  align-items:center;
+}
+
+.topbar .brand__stack{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;      /* name left, affiliation under it */
+  text-align:left;
+  line-height:1.05;
+}
+
+.topbar .brand__text{
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.05;
+  white-space: nowrap;         /* keep name on one line */
+}
+
+.topbar .brand__sub{
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(71,85,105,.6);
+  margin-top: 2px;
+}
+
+/* nav slightly larger */
+.topbar .nav a{
+  font-size: 15px;
+  font-weight: 700;
+}
+/* =========================================
+   FINAL HEADER POLISH PACK (paste at END)
+   ========================================= */
+
+/* Make header rhythm tighter + more academic */
+.topbar__inner{
+  padding: 9px 0;          /* slightly shorter */
+  gap: 22px;
+}
+
+/* Brand: calmer, more balanced */
+.topbar .brand{
+  gap: 10px;
+}
+
+/* Institutional mark: subtle dot with border (trustworthy) */
+.topbar .brand__mark{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(15,118,110,0.85);
+  box-shadow: inset 0 0 0 1px rgba(2,6,23,0.18);
+  opacity: 0.95;
+}
+
+/* Name: strong but not “shouty” */
+.topbar .brand__text{
+  font-size: 16.5px;       /* slightly down from 17 */
+  font-weight: 900;
+  letter-spacing: -0.1px;  /* academic feel */
+  line-height: 1.05;
+}
+
+/* Affiliation: quieter caption */
+.topbar .brand__sub{
+  font-size: 10.8px;
+  font-weight: 600;
+  letter-spacing: 0.22px;
+  color: rgba(71,85,105,0.58);
+  margin-top: 2px;
+}
+
+/* Nav: slightly larger, tighter spacing, more confident */
+.topbar .nav{
+  gap: 8px;                /* tighter than 10–16 */
+}
+.topbar .nav a{
+  font-size: 14.6px;
+  font-weight: 750;
+  padding: 8px 9px;        /* less “pill” */
+  border-radius: 10px;
+  color: rgba(71,85,105,0.92);
+}
+.topbar .nav a:hover{
+  background: rgba(17,24,39,0.04);
+  color: var(--ink);
+}
+
+/* Active: underline only (no background) */
+.topbar .nav a[aria-current="page"]{
+  background: transparent;
+  color: var(--ink);
+}
+.topbar .nav a::after{
+  left: 9px;
+  right: 9px;
+  bottom: 5px;
+  height: 2px;
+}
+.topbar .nav a[aria-current="page"]::after{
+  background: rgba(15,118,110,0.75);
+}
+
+/* CV button: match header scale */
+.topbar .btn--primary{
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+}
+/* ===== FINAL BRAND MICRO-POLISH (name + affiliation only) ===== */
+
+.topbar .brand__text{
+  font-size: 16.2px;          /* down ~0.3px: calmer */
+  font-weight: 850;           /* slightly less aggressive than 900 */
+  letter-spacing: -0.15px;    /* refined academic typography */
+}
+
+.topbar .brand__sub{
+  font-size: 10.6px;          /* a touch smaller */
+  margin-top: 3px;            /* clearer separation */
+  letter-spacing: 0.35px;     /* reads like an institutional caption */
+  color: rgba(71,85,105,0.50);
+}
+
+/* very subtle breathing room between mark and text */
+.topbar .brand{
+  gap: 11px;
+}
+/* Nudge brand (name + affiliation) slightly downward */
+.topbar .brand__stack{
+  transform: translateY(1.5px);
+}
+/* Academic brand icon (book) */
+.topbar .brand__mark{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:14px;
+  height:14px;
+  color: rgba(15,118,110,0.85);
+}
+/* Show SVG icon instead of dot */
+.topbar .brand__mark{
+  width:16px !important;
+  height:16px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  background: transparent !important;   /* IMPORTANT */
+  border: none !important;              /* IMPORTANT */
+  border-radius: 0 !important;          /* IMPORTANT */
+  box-shadow: none !important;          /* IMPORTANT */
+
+  color: rgba(15,118,110,0.90) !important; /* svg uses currentColor */
+}
+.topbar .brand__mark svg{
+  width:14px !important;
+  height:14px !important;
+  display:block !important;
+}
+/* Final clarity boost for affiliation */
+.topbar .brand__sub{
+  color: rgba(71,85,105,0.62);   /* was ~0.50–0.58 */
+  font-weight: 650;              /* subtle increase */
+}
+/* Final-final affiliation clarity (still restrained) */
+.topbar .brand__sub{
+  color: rgba(71,85,105,0.70);   /* clearer but not loud */
+  font-weight: 650;
+  letter-spacing: 0.35px;        /* institutional feel */
+  margin-top: 3px;               /* slightly more separation */
+}
+/* FORCE final affiliation clarity */
+header.topbar .brand__sub{
+  color: rgba(71,85,105,0.75) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4px !important;
+  margin-top: 3px !important;
+}
+/* =====================================================
+   DOWNLOAD CV → PRINT WHOLE PAGE AS CV (WITH WATERMARK)
+   ===================================================== */
+@media print {
+
+  /* Page setup (A4-friendly) */
+  @page {
+    margin: 14mm;
+  }
+
+  /* Hide web-only UI */
+  header.topbar,
+  .skip,
+  .btn,
+  .chart,
+  .chartWrap,
+  .chartToggles {
+    display: none !important;
+  }
+
+  /* Clean academic background */
+  body {
+    background: #ffffff !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border-color: rgba(0,0,0,0.12) !important;
+  }
+
+  /* Use full width */
+  .container {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* Slightly tighter spacing for CV density */
+  .hero {
+    margin-top: 0 !important;
+  }
+
+  .section {
+    padding: 14px 0 !important;
+    margin-top: 10px !important;
+  }
+
+  /* Academic watermark */
+  body::before {
+    content: "Johar A. A. Abdullah — Curriculum Vitae";
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 52px;
+    font-weight: 800;
+    color: rgba(0,0,0,0.07);
+    transform: rotate(-25deg);
+    pointer-events: none;
+    z-index: 9999;
+    text-align: center;
+    padding: 0 30mm;
+  }
+
+  /* Prevent awkward page breaks */
+  section,
+  .card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Academic-style links in print */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9px;
+    color: rgba(0,0,0,0.55);
+    word-break: break-all;
+  }
 }

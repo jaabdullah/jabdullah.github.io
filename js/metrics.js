@@ -48,6 +48,10 @@ const elGsI10_card = document.getElementById("gsI10");
 const elScC_card = document.getElementById("scCitationsTotal");
 const elScH_card = document.getElementById("scH");
 const elScI10_card = document.getElementById("scI10");
+// Citation total badges (chart-specific)
+const elBadgeWrapOA = document.getElementById("badge-openalex");
+const elBadgeWrapGS = document.getElementById("badge-scholar");
+const elBadgeWrapSC = document.getElementById("badge-scopus");
 
 // Card buttons (optional)
 const cardOA = document.getElementById("cardOA");
@@ -58,6 +62,10 @@ const cardSC = document.getElementById("cardSC");
 const elChartTitle = document.getElementById("citationsChartTitle");
 const elChartMeta = document.getElementById("citationsChartMeta");
 const chartEl = document.getElementById("citationsChart");
+// Impact badge DOM (totals above the citations chart)
+const elBadgeOA = document.getElementById("openalex-total-citations");
+const elBadgeGS = document.getElementById("scholar-total-citations");
+const elBadgeSC = document.getElementById("scopus-total-citations");
 
 if (elChartTitle) {
   elChartTitle.textContent = "Citations (OpenAlex publication-year vs Google Scholar citation-year)";
@@ -75,6 +83,7 @@ const btnSrcSc = document.getElementById("srcScopus");
 
 const elSourceName = document.getElementById("citationsChartSource");
 const elScLastUpdated = document.getElementById("scopusLastUpdated");
+const elMetricsLastUpdated = document.getElementById("metricsLastUpdated");
 const elLegendLabel = document.getElementById("legendLabel");
 const legendEl = document.getElementById("chartLegend");
 
@@ -398,16 +407,28 @@ function setActiveSource(btn) {
   for (const b of [btnSrcOA, btnSrcGS, btnSrcSc]) {
     if (!b) continue;
     b.classList.toggle("isActive", b === btn);
-    setActiveMetricCard(CHART_SOURCE);
+  }
+  setActiveMetricCard(CHART_SOURCE);
+setActiveBadge(CHART_SOURCE);
 }
 
-}
 
 
 function setActiveMetricCard(src){
   if (!cardOA || !cardGS || !cardSC) return;
   const map = { openalex: cardOA, scholar: cardGS, scopus: cardSC };
   for (const [k, el] of Object.entries(map)) {
+    el.classList.toggle("isActive", k === src);
+  }
+}
+function setActiveBadge(src) {
+  const map = {
+    openalex: elBadgeWrapOA,
+    scholar: elBadgeWrapGS,
+    scopus: elBadgeWrapSC
+  };
+  for (const [k, el] of Object.entries(map)) {
+    if (!el) continue;
     el.classList.toggle("isActive", k === src);
   }
 }
@@ -637,6 +658,23 @@ function applyMetrics(payload, fromCache, sources) {
   if (elScC_card) elScC_card.textContent = (scTotals.citations ?? "—") === "—" ? "—" : formatNumber(scTotals.citations);
   if (elScH_card) elScH_card.textContent = (scTotals.hIndex ?? "—");
   if (elScI10_card) elScI10_card.textContent = (scTotals.i10Index ?? "—");
+  // === Impact badges (totals shown above chart) ===
+  // OpenAlex total: use "cited" (already computed and consistent with OA series)
+  if (elBadgeOA) {
+    elBadgeOA.textContent = cited === "—" ? "—" : formatNumber(cited);
+  }
+
+  // Google Scholar total: from profile.json (manual / updated file)
+  if (elBadgeGS) {
+    const v = gsTotals?.citations;
+    elBadgeGS.textContent = (v == null) ? "—" : formatNumber(v);
+  }
+
+  // Scopus total: from profile.json (auto-updated by your script)
+  if (elBadgeSC) {
+    const v = scTotals?.citations;
+    elBadgeSC.textContent = (v == null) ? "—" : formatNumber(v);
+  }
 
   // Top cards: prefer Google Scholar values if provided; otherwise show OpenAlex-derived
   const gsH = sources?.scholar?.hIndex;
@@ -676,9 +714,13 @@ function applyMetrics(payload, fromCache, sources) {
   if (CHART_SOURCE === "scopus" && !LAST_COUNTS_SCOPUS.length) CHART_SOURCE = "openalex";
 
   renderChart();
+setActiveBadge(CHART_SOURCE);
+
 
   const updated = new Date().toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
   if (elSource) elSource.textContent = `Updated ${updated}`;
+  if (elMetricsLastUpdated) elMetricsLastUpdated.textContent = updated;
+
 
   // Sources table
   if (elSourcesBody) {

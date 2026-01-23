@@ -1,12 +1,64 @@
 {
-  "lastUpdated": "2026-01-11",
+  "lastUpdated": "2026-01-22",
+  "method": "grouped_by_publication_year_using_scopus_search",
   "citationsByYear": {
-    "2020": 1,
-    "2021": 22,
-    "2022": 48,
-    "2023": 94,
-    "2024": 365,
-    "2025": 993,
-    "2026": 176
-  }
+    "2020": 219,
+    "2022": 130,
+    "2023": 385,
+    "2024": 730,
+    "2025": 270,
+    "2026": 0
+  },
+  "data": [
+    {
+      "year": 2020,
+      "citations": 219
+    },
+    {
+      "year": 2022,
+      "citations": 130
+    },
+    {
+      "year": 2023,
+      "citations": 385
+    },
+    {
+      "year": 2024,
+      "citations": 730
+    },
+    {
+      "year": 2025,
+      "citations": 270
+    },
+    {
+      "year": 2026,
+      "citations": 0
+    }
+  ],
+  "publicationsByYear": [
+    {
+      "year": 2020,
+      "publications": 1
+    },
+    {
+      "year": 2022,
+      "publications": 4
+    },
+    {
+      "year": 2023,
+      "publications": 12
+    },
+    {
+      "year": 2024,
+      "publications": 24
+    },
+    {
+      "year": 2025,
+      "publications": 18
+    },
+    {
+      "year": 2026,
+      "publications": 1
+    }
+  ]
 }
